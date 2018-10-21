@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>Potplayer播放器</title>
+	<link rel="stylesheet" type="text/css" href="./font-awesome-4.7.0/css/font-awesome.min.css">
+	<style type="text/css">
+	  *{padding: 0;margin: 0}
+	  html,body{
+	  	width: 100%;
+	  }
+	  /*@media only screen and (max-width: 1023px){
+	  	header{
+	  	  width: 100%;
+	  	  height: 36px;
+	  	  background-color: rgba(30,30,30);
+	  	}
+	  }*/
+
+	  @media only screen and (min-width: 1024px){
+	  	header{
+	  	  width: 70%;
+	  	  height: 36px;
+	  	  background-color: rgb(30,30,30);
+	  	  line-height: 36px;
+	  	  margin: 20px auto 0px auto;
+	  	  font-size: 12px;
+	  	  font-family: "微软雅黑";
+	  	}
+	  	header > span{
+	  	  color: #fff;
+	  	  margin-left: 10px;
+	  	  font-size: 12px;
+	  	  display: inline-block;
+	  	  height: 100%;
+	  	  line-height: 36px;
+	  	  text-align: center;
+	  	  vertical-align: top;
+	  	}
+	  	header > span:hover{
+	  	  cursor: pointer;
+	  	  text-shadow: 2px 2px 3px #fff;
+	  	}
+
+	  	main{
+	  	  width: 70%;
+	  	  margin: 0 auto;
+	  	  position: relative;
+	  	}
+	  	main > video{
+	  	  vertical-align: top;
+	      width: 100%;
+	      position: relative;
+
+	  	}
+	  	/*全屏时也隐藏默认控制器*/
+	  	main > video::-webkit-media-controls{
+	  	  display: none !important
+	  	}
+	  	main > .volumeShow{
+          position: absolute;
+          top: 40px;
+          left: 25px;
+          color: blue;
+          font-family: "宋体"
+	  	}
+	  	main > .loading{
+	  	  width: 80px;
+	  	  height: 80px;
+	  	  position: absolute;
+	  	  left: 50%;
+	  	  top: 50%;
+	  	  transform: translate(-50%,-50%);
+	  	}
+	  	main > .loading > .guodudonghua{
+	  	  width: 100%;
+	  	  height: 100%;
+	  	  display: block;
+	  	}
+	  	main > .loading > .guodudonghua > .bigCircle{
+	  	  width: 100%;
+	  	  height: 100%;
+	  	  border-radius: 50%;
+	  	  position: relative;
+	  	  display: none;
+	  	  /*animation: donghua 4s ease infinite*/
+	  	}
+	  	main > .loading > .guodudonghua > .bigCircle > .smallCircle{
+	  	  width: 12px;
+	  	  height: 12px;
+	  	  border-radius: 50%;
+	  	}
+	  	main > .loading > .guodudonghua > .bigCircle > .circle1{
+          position: absolute;
+          background-color: red;
+          top: 0;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          animation: donghua1 4s linear infinite
+	  	}
+	  	main > .loading > .guodudonghua > .bigCircle > .circle2{
+          position: absolute;
+          background-color: orange;
+          left: 100%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+          animation: donghua1 4s linear infinite 1s
+	  	}
+	  	main > .loading > .guodudonghua > .bigCircle > .circle3{
+          position: absolute;
+          background-color: yellow;
+          top: 100%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+          animation: donghua1 4s linear infinite 2s
+	  	}
+	  	main > .loading > .guodudonghua > .bigCircle > .circle4{
+          position: absolute;
+          background-color: green;
+          top: 50%;
+          left: 0;
+          transform: translate(-50%,-50%);
+          animation: donghua1 4s linear infinite 3s
+	  	}
+	  	main > .playButton{
+	  	  position: absolute;
+	  	  right: 40px;
+	  	  bottom: 40px;
+	  	  color: #fff;
+	  	  display: none;
+	  	}
+	  	main:hover > .playButton{
+	  	  cursor: pointer;
+	  	  display: block;
+	  	}
+	  	@keyframes donghua{
+	  	  0%{
+	  	    transform: rotate(0deg);
+	  	  }
+	  	  15%{
+	  	    transform: rotate(90deg);
+	  	  }
+	  	  25%{
+	  	    transform: rotate(90deg);
+	  	  }
+	  	  40%{
+	  	    transform: rotate(180deg);
+	  	  }
+	  	  50%{
+	  	    transform: rotate(180deg);
+	  	  }
+	  	  65%{
+	  	    transform: rotate(270deg);
+	  	  }
+	  	  75%{
+	  	    transform: rotate(270deg);
+	  	  }
+	  	  90%{
+	  	    transform: rotate(360deg);
+	  	  }
+	  	  100%{
+	  	    transform: rotate(360deg);
+	  	  }
+	  	}
+	  	@keyframes donghua1{
+	  	  0%{
+	  	    transform: translate(-50%,-50%) scale(1)
+	  	  }
+	  	  12.5%{
+	  	    transform: translate(-50%,-50%) scale(2)
+	  	  }
+	  	  25%{
+	  	    transform: translate(-50%,-50%) scale(1)
+	  	  }
+	  	  100%{
+	  	  	transform: translate(-50%,-50%) scale(1)
+	  	  }
+	  	}
+	  	footer{
+	  	  width: 70%;
+	  	  height: 70px;
+	  	  margin: 0 auto
+	  	}
+	  	footer > .top{
+	  	  width: 100%;
+	  	  height: 20px;
+	  	  background-color: rgba(30,30,30,0.9);
+	  	}
+	  	/*左边盒子*/
+	  	footer > .top > .left{
+	  	  width: 80%;
+	  	  height: 100%;
+	  	  display: inline-block;
+	  	  position: relative;
+	  	}
+	  	/*左边盒子里的时间轴，设置透明*/
+	  	footer > .top > .left > .box{
+	  	  width: 99%;
+	  	  height: 100%;
+	  	  background-color: transparent;
+	  	  box-sizing: border-box;
+	  	  position: absolute;
+	  	  top: 50%;
+	  	  margin-left: 10px;
+	  	  transform: translate(0,-50%);
+	  	  display: flex;
+	  	  align-items: center;
+	  	}
+	  	footer > .top > .left > .box > .timeControl{
+	  	  width: 100%;
+	  	  height: 3px;
+	  	  background-color: #000;
+	  	  display: flex;
+	  	  align-items: center;
+	  	  position: relative;
+	  	}
+	  	footer > .top > .left > .box > .timeControl .canplay{
+	  	  width: 0;
+	  	  height: 3px;
+	  	  background-color: #ccc;
+	  	  position: absolute;
+	  	  left: 0;
+	  	}
+	  	footer > .top > .left > .box > .timeControl > .bgc{
+	  	  width: 0px;
+	  	  height: 100%;
+	  	  background-color: yellow;
+	  	  position: absolute;
+	  	  left: 0;
+	  	}
+	  	footer > .top > .left > .box > .timeControl > .circle{
+	  	  width: 8px;
+	  	  height: 8px;
+	  	  border-radius: 50%;
+	  	  background-color: #ccc;
+	  	  position: absolute;
+	  	  left: -4px;
+	  	}
+	  	footer > .top > .left > .box > .timeControl >.circle:hover{
+	  	  cursor: pointer;
+	  	}
+	  	footer > .top > .right{
+	  	  width: 20%;
+	  	  height: 100%;
+	  	  float: right;
+	  	  display: flex;
+	  	  align-items: center;
+	  	}
+	  	footer > .top > .right > .volume{
+          margin-left: 20px;
+	  	}
+	  	footer > .top > .right > .sound{
+	  	  height: 100%;
+	  	  width: 90px;
+	  	  background-color: transparent;
+	  	  margin-left: 5px;
+	  	  display: flex;
+	  	  align-items: center;
+	  	  position: relative;
+	  	}
+	  	footer > .top > .right > .sound:hover{
+	  	  cursor: pointer;
+	  	}
+	  	footer > .top > .right > .sound > .volumeControl{
+	  	  width: 100%;
+	  	  height: 3px;
+	  	  background-color: #000;
+	  	}
+	  	footer > .top > .right > .sound > .volumeCircle{
+	  	  width: 8px;
+	  	  height: 8px;
+	  	  border-radius: 50%;
+	  	  background-color: #ccc;
+	  	  position: absolute;
+	  	  left: 86px;
+	  	}
+	  	footer > .top > .right > .volume:hover{
+	  	  cursor: pointer;
+	  	  color: yellow;
+	  	}
+	  	footer > .bottom{
+	  	  width: 100%;
+	  	  height: 50px;
+	  	  box-sizing: border-box;
+	  	  border-top: 1px solid #000;
+	  	  display: flex;
+	  	}
+	  	footer > .bottom > .space:nth-of-type(-n + 4){
+	  	  width: 50px;
+	      border-right: 1px solid #000;
+	      display: flex;
+	      justify-content: center;
+	      align-items: center;
+	      background-color: rgb(30,30,30);
+	  	}
+	  	footer > .bottom > .space:nth-of-type(-n + 4):hover{
+	  	  cursor: pointer;
+	  	}
+	  	footer > .bottom > .space:nth-of-type(5){
+	  	  flex: 1;
+	      border-right: 1px solid #000;
+	      background-color: rgb(30,30,30);
+	      display: flex;
+	      align-items: center;
+	      position: relative;
+	  	}
+	  	footer > .bottom > .space:nth-of-type(5) > .currentTime{
+	  	  margin-left: 10px;
+	  	}
+	  	footer > .bottom > .space:nth-of-type(5) > .playStatus{
+	  	  position: absolute;
+	  	  right: 5px;
+	  	  font-size: 12px;
+	  	  height: 100%;
+	  	  width: 100px;
+	  	  line-height: 50px;
+	  	  font-family: "微软雅黑"
+	  	}
+	  	footer > .bottom > .space:last-of-type{
+	  	  width: 50px;
+	  	  display: flex;
+	      justify-content: center;
+	      align-items: center;
+	      background-color: rgb(30,30,30);
+	  	}
+	  	footer > .bottom > .space:last-of-type:hover{
+	  	  cursor: pointer;
+	  	  background-color: rgba(30,30,30,0.9)
+	  	}
+	  }
+
+	</style>
+</head>
+<body>
+
+  <header>
+    <span title="@我们无'处'安放的青春">PotPlayer</span>
+  </header>
+  <main>
+    <video src="./Kedi.mp4" preload="auto">
+    </video>
+    <span class="volumeShow"></span>
+    <div class="loading">
+      <div class="guodudonghua">
+        <div class="bigCircle">
+          <div class="smallCircle circle1"></div>
+          <div class="smallCircle circle2"></div>
+          <div class="smallCircle circle3"></div>
+          <div class="smallCircle circle4"></div>
+        </div>
+      </div>
+    </div>
+    <div class="playButton"><i class="fa fa-play-circle fa-5x"></i></div>
+  </main>
+  <footer>
+    <div class="top">
+      <div class="left">
+        <!-- 便于点击 -->
+        <div class="box">
+          <div class="timeControl">
+            <div class="canplay"></div>
+            <!-- 播放过的时间轴显示黄色 -->
+            <div class="bgc"></div>
+            <div class="circle"></div>
+          </div>
+        </div>
+      </div>
+      <div class="right">
+        <i class="fa fa-volume-up volume" title="音量"></i>
+        <div class="sound">
+          <div class="volumeControl"></div>
+          <div class="volumeCircle"></div>
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="space videoRun spacebgc" title="播放"><i class="fa fa-play"></i></div>
+      <div class="space videoStop spacebgc" title="暂停"><i class="fa fa-pause"></i></div>
+      <div class="space videoReturn spacebgc" title="回退5s"><i class="fa fa-step-backward"></i></div>
+      <div class="space videoGo spacebgc" title="快进5s"><i class="fa fa-step-forward"></i></div>
+      <div class="space spaceTime">
+        <span class="currentTime">00 : 00 : 00</span>&nbsp;
+        <span>/</span>&nbsp;
+        <span class="totalTime">00 : 00 : 00</span>
+        <div class="playStatus">状态：</div>
+      </div>
+      <div class="space videoFullScreen spacebgc" title="全屏"><i class="fa fa-arrows-alt"></i></div>
+    </div>
+  </footer>	
+<script type="text/javascript">
+  // window.onload = function(){
+  	var video = document.querySelector('video')
+  	var circle = document.querySelector('.circle')
+  	var box = document.querySelector('.box')
+    var videoRun = document.querySelector('.videoRun')
+    var videoStop = document.querySelector('.videoStop')
+    var videoReturn = document.querySelector('.videoReturn')
+    var videoGo = document.querySelector('.videoGo')
+    var videoFullScreen = document.querySelector('.videoFullScreen')
+    var bgc = document.querySelector('.bgc')
+    var volumeShow = document.querySelector('.volumeShow')
+    var timeControl = document.querySelector('.timeControl')
+    var loading = document.querySelector('.loading')
+    var canPlay = document.querySelector('.canplay')
+    var playButton = document.querySelector('.playButton')
+    var bigCircle = document.querySelector('.bigCircle')
+    var currentWidth = null
+    var moveVolume = 86
+    var timer1 = null
+
+    // 阻止在视频上右键单击鼠标可以选择浏览器自带的控件
+    video.oncontextmenu = function(e){
+      e.preventDefault()
+    }
+    
+    // 按钮、进度条变为白色（不能播放时为灰色，鼠标悬停时也不会更改背景色）
+    document.querySelector('.spaceTime').style.color = "#fff"
+    var buttonArr = document.querySelectorAll('.spacebgc')
+    for(var i = 0;i < buttonArr.length;i ++){
+      buttonArr[i].style.color = "#fff"
+      buttonArr[i].onmouseover = function(){
+      	this.style.backgroundColor = "rgba(30,30,30,0.9)"
+      }
+      buttonArr[i].onmouseout = function(){
+      	this.style.backgroundColor = "rgb(30,30,30)"
+      }
+    }
+    document.querySelector('.volumeCircle').style.backgroundColor = "#fff"
+    document.querySelector('.circle').style.backgroundColor = "#fff"
+
+    // 播放
+    playButton.onclick = function(){
+
+      // bigCircle.style.animation = "no-animation"
+      // bigCircle.style.display = "none"
+      // 
+      document.querySelector('.playStatus').innerHTML = "状态：正在播放"
+
+      // video.addEventListener('progress',function(){
+      // })
+      // 
+      // 
+      video.play()
+      
+
+      // 监测缓存的进度并显示
+      setInterval(function(){
+        canPlay.style.width = video.buffered.end(0) / video.duration * 100 + "%"
+      },50)
+
+      // video.addEventListener('loadedmetadata',function(){
+      // })
+
+      // 视频未缓冲足够停止播放
+      video.addEventListener('waiting',function(){
+      	bigCircle.style.animation = "donghua 4s ease infinite"
+        bigCircle.style.display = "block"
+        if(document.querySelector('.playStatus').innerHTML === "状态：暂停"){
+          document.querySelector('.playStatus').innerHTML = "状态：暂停"
+        }else{
+          document.querySelector('.playStatus').innerHTML = "状态：正在缓冲"
+        }
+      	// console.log('未缓冲足够')
+      })
+
+      // 视频缓冲足够可以播放
+      video.addEventListener('playing',function(){
+      	bigCircle.style.animation = "no-animation"
+        bigCircle.style.display = "none"
+        if(document.querySelector('.playStatus').innerHTML === "状态：暂停"){
+          document.querySelector('.playStatus').innerHTML = "状态：可以播放"
+        }else{
+          video.play()
+          document.querySelector('.playStatus').innerHTML = "状态：正在播放"
+        }
+      })
+      
+      // 显示视频总长度
+      var totalArr = getVideoTime(video.duration)
+
+      // 显示总时间
+      document.querySelector('.totalTime').innerHTML = totalArr[0] + " : " + totalArr[1] + " : " + totalArr[2]
+
+      // 格式化时间
+      function getVideoTime(time){
+      	var arr = []
+        var hours = parseInt(time / 60 / 60)
+        hours = hours < 10 ? '0' + hours : hours
+        var miniutes = parseInt(time / 60 % 60)
+        miniutes = miniutes < 10 ? '0' + miniutes : miniutes
+        var seconds = parseInt(time % 60)
+        seconds = seconds < 10 ? '0' + seconds : seconds
+        arr.push(hours,miniutes,seconds)
+        return arr
+      }
+
+
+      // 播放位置改变时
+      video.ontimeupdate = function(){
+      	var currentArr = getVideoTime(video.currentTime)
+      	// 显示当前时间
+      	document.querySelector('.currentTime').innerHTML = currentArr[0] + " : " + currentArr[1] + " : " + currentArr[2]
+      	// 时间轴跟随移动
+      	// 当前时间 / 总时间 * 时间轴的长度
+      	currentWidth = video.currentTime / video.duration * box.offsetWidth
+      	// console.log(currentWidth)
+      	// 黄色区域显示播放过的进度
+      	bgc.style.width = currentWidth + "px"
+      	circle.style.left = (currentWidth - 4) + "px"
+      }
+        
+      videoRun.onclick = function(){
+        video.play()
+        bigCircle.style.animation = "no-animation"
+        bigCircle.style.display = "none"
+        document.querySelector('.playStatus').innerHTML = "状态：正在播放"
+      }
+
+      // 暂停视频（如果视频处于缓冲状态，暂停无效）
+      videoStop.onclick = function(){
+        video.pause()
+        bigCircle.style.animation = "donghua 4s ease infinite"
+        bigCircle.style.display = "block"
+        document.querySelector('.playStatus').innerHTML = "状态：暂停"
+      }
+
+      // 回退
+      videoReturn.onclick = function(){
+        video.currentTime -= 5
+      }
+
+      // 快进
+      videoGo.onclick = function(){
+      	video.currentTime += 5
+      }
+
+      // 全屏显示
+      videoFullScreen.onclick = function(){
+        if(video.requestFullScreen){
+          video.requestFullScreen()
+          // video.controls = false
+        }else if(video.webkitRequestFullScreen){
+          video.webkitRequestFullScreen()
+          // video.controls = false
+        }else{
+          video.mozRequestFullScreen()
+          // video.controls = false
+        }
+      }
+
+      // 音量选择
+      document.querySelector('.sound').onclick = function(event){
+        var event = event || window.event
+        video.volume = event.offsetX / document.querySelector('.volumeControl').offsetWidth
+        // 圆形半径4px
+        moveVolume = event.offsetX - 4
+        document.querySelector('.volumeCircle').style.left = moveVolume + "px"
+      }
+
+      // 静音
+      document.querySelector('.volume').onclick = function(){
+      	video.muted = !video.muted
+      	document.querySelector('.volumeCircle').style.left = video.muted ? "-4px" : moveVolume + "px"
+      	volumeShow.innerHTML = video.muted ? "静音：开启" : "静音：关闭"
+      	if(!video.muted){
+      	  setTimeout(function(){
+      	    volumeShow.innerHTML = ""
+      	  },2000)
+      	}
+      }
+
+      // 播放结束回到初始状态
+      video.onended = function(){
+      	video.currentTime = 0
+      	loading.style.animation = "no-animation"
+        loading.style.display = "none"
+      	document.querySelector('.playStatus').innerHTML = "状态：播放结束"
+      }
+
+      // .circle必须要定位
+      circle.onmousedown = function(event){
+      	var event = event || window.event
+        var originLeft = this.offsetLeft
+      	// 鼠标按下时的相对于整个浏览器的水平坐标
+      	var mousedownLocation = event.clientX
+      	document.documentElement.onmousemove = function(event){
+          var event = event || window.event
+          // 鼠标按下并滑动时的相对于整个浏览器的水平坐标
+  	      var mousemoveLocation = event.clientX
+          // 坐标为-4 ~ timeControl.offsetWidth - 4，时间轴 = 滑动的坐标 - 按下时的坐标 + 圆圈原本相对于父元素的坐标
+          if((mousemoveLocation - mousedownLocation + originLeft) < -4){
+            video.currentTime = 0
+          }else if((mousemoveLocation - mousedownLocation + originLeft) > (timeControl.offsetWidth - 4)){
+            video.currentTime = video.duration
+          }else{
+            video.currentTime = (mousemoveLocation - mousedownLocation + originLeft) / (timeControl.offsetWidth - 4) * video.duration
+          }
+      	}
+      	document.documentElement.onmouseup = function(){
+      	  this.onmousemove = null
+      	  this.onmouseup = null
+      	}
+      }
+    }
+ 
+</script>
+</body>
+</html>
