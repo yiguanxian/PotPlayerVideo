@@ -31,4 +31,6 @@ function getVideoTime(time){
 }
 封装的时间格式化方法。video.duration以及video.currentTime返回值都是带小数点的数字，我们需要将这些数字转换为时：分：秒的形式。这里返回值是一个数组。
 
+示例：https://zhouwuchao.github.io/
+
 
